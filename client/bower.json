@@ -1,0 +1,31 @@
+{
+  "name": "ngtest",
+  "version": "0.1.0",
+  "authors": [
+    "rogerano <rogerano@gmail.com>"
+  ],
+  "description": "angularjs unit testing",
+  "main": "index.html",
+  "keywords": [
+    "terminator",
+    "infiltrator",
+    "nsa",
+    "peeping tom"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "1.2.0-rc.2",
+    "angular-bootstrap": "~0.6.0",
+    "bootstrap": "2.3.2",
+    "angular-resource": "1.2.0-rc.2",
+    "angular-mocks": "1.2.0-rc.2"
+  }
+}

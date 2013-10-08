@@ -1,0 +1,30 @@
+<div class="well well-small">
+  <input type="text" placeholder="device search" class="input-medium search-query" ng-model="devices.deviceSearch"
+    popover="Start typing to search for a device" popover-trigger="mouseenter">
+
+  <div class="btn-group pull-right">
+    <div class="btn" ng-model="devices.filter" btn-radio="">All</div>
+    <div class="btn" ng-model="devices.filter" btn-radio="'iphone'">iPhone</div>
+    <div class="btn" ng-model="devices.filter" btn-radio="'aphone'">Android Phone</div>
+    <div class="btn" ng-model="devices.filter" btn-radio="'ipad'">iPad</div>
+    <div class="btn" ng-model="devices.filter" btn-radio="'apad'">Android Tablet</div>
+    <div class="btn" ng-model="devices.filter" btn-radio="'ms'">Windows Trainwreck</div>
+  </div>
+</div>
+
+<table class="table table-striped table-hover"
+  ng-init="devices.deviceId = null;"
+  ng-click="devices.viewDevice(devices.deviceId);">
+  <tr>
+    <th>id</th>
+    <th>device type</th>
+    <th>last heard from</th>
+    <th>status</th>
+  </tr>
+  <tr ng-repeat="device in devices.devices | filter:devices.deviceSearch | filter:devices.filter" ng-click="devices.deviceId = $index;">
+    <td>{{device.name}}</td>
+    <td>{{device.type}}</td>
+    <td>{{device.lastComm}}</td>
+    <td>{{device.status}}</td>
+  </tr>
+</table>

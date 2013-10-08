@@ -1,0 +1,34 @@
+<div class="page-header">
+  <h3>{{devices.device.name}} <small>{{devices.device.type}}</small> <small class="pull-right label label-info">{{devices.device.status}}</small></h3>
+</div>
+
+<div>
+  <span class="dropdown">
+    <a class="btn btn-primary dropdown-toggle">Info</a>
+    <ul class="dropdown-menu">
+      <li><a ng-click="devices.deviceInfo(devices.device);">Device Info</a></li>
+      <li><a>OS Info</a></li>
+      <li><a>Something Else</a></li>
+    </ul>
+  </span>
+
+  <div class="btn-group">
+    <div class="btn">Command 1</div>
+    <div class="btn">Command 2</div>
+    <div class="btn">Command 3</div>
+  </div>
+
+  <a class="btn btn-primary pull-right" href="#/"><i class="icon-list icon-white"></i> <span>Device List</span></a>
+</div>
+<p></p>
+
+<div class="row">
+  <div class="span4">Memory</div>
+  <div class="span4">CPU</div>
+  <div class="span4">Elephants</div>
+</div>
+
+<p></p>
+
+<pre class="pre-scrollable console"><ol><li ng-repeat="line in devices.device.lines">{{line.out}}</li></ol></pre>
+
