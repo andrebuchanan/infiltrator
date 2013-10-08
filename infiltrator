@@ -1,0 +1,3 @@
+#!/bin/sh
+export INFILTRATOR_SECRET=secret
+node server.js 8888
