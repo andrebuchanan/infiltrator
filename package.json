@@ -12,12 +12,14 @@
   "author": "rogerano@gmail.com",
   "license": "MIT",
   "dependencies": {
-    "express": "3.4.x"
+    "express": "3.4.x",
+    "redis": "~0.9.1",
+    "shoe": "0.0.15"
   },
   "repository": "",
   "private": true,
   "devDependencies": {
-    "bower":   "1.2.x",
+    "bower": "1.2.x",
     "mocha": "~1.13.0",
     "karma-script-launcher": "~0.1.0",
     "karma-firefox-launcher": "~0.1.0",

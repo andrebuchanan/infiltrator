@@ -22,10 +22,13 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "1.2.0-rc.2",
+    "angular": "1.2.3",
     "angular-bootstrap": "~0.6.0",
     "bootstrap": "2.3.2",
-    "angular-resource": "1.2.0-rc.2",
-    "angular-mocks": "1.2.0-rc.2"
+    "angular-resource": "1.2.3",
+    "angular-mocks": "1.2.3"
+  },
+  "resolutions": {
+    "angular": "1.2.3"
   }
 }

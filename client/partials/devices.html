@@ -22,8 +22,8 @@
     <th>status</th>
   </tr>
   <tr ng-repeat="device in devices.devices | filter:devices.deviceSearch | filter:devices.filter" ng-click="devices.deviceId = $index;">
-    <td>{{device.name}}</td>
-    <td>{{device.type}}</td>
+    <td>{{device.id}}</td>
+    <td>{{device.deviceType}}</td>
     <td>{{device.lastComm}}</td>
     <td>{{device.status}}</td>
   </tr>
