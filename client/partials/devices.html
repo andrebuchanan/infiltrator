@@ -21,7 +21,7 @@
     <th>last heard from</th>
     <th>status</th>
   </tr>
-  <tr ng-repeat="device in devices.devices | filter:devices.deviceSearch | filter:devices.filter" ng-click="devices.deviceId = $index;">
+  <tr ng-repeat="device in devices.devices | filter:devices.deviceSearch | filter:devices.filter" ng-click="devices.deviceId = device.id;">
     <td>{{device.id}}</td>
     <td>{{device.deviceType}}</td>
     <td>{{device.lastComm}}</td>

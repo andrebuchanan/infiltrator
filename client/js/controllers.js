@@ -68,8 +68,8 @@ angular.module('infiltrator.controllers', []).
     if ($routeParams.deviceId)
     {
       // console.log($routeParams.eventId);
-      this.loadingMessage = "Loading event.";
-      this.device = this.devices[$routeParams.deviceId];
+      this.loadingMessage = "Loading device";
+      this.device = Device.get({ id: $routeParams.deviceId });
       // this.arbEvent = Event.get({ _id: { $oid: $routeParams.eventId }}, function()
       // {
       //   $this.loadingMessage = false;

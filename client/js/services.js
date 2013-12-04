@@ -17,8 +17,6 @@ angular.module('infiltrator.services', ["ngResource"]).
       console.log(devIdx);
     });
 
-
-
     return Device;
   }).
   // Topic (sub/pub)
