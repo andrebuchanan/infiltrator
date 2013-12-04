@@ -1,10 +1,10 @@
 {
-  "name": "ngtest",
+  "name": "infiltrator",
   "version": "0.1.0",
   "authors": [
-    "rogerano <rogerano@gmail.com>"
+    "abuchanan <andre.r.buchanan@gmail.com>"
   ],
-  "description": "angularjs unit testing",
+  "description": "client information display",
   "main": "index.html",
   "keywords": [
     "terminator",

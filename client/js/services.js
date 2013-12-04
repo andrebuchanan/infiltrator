@@ -7,14 +7,21 @@ angular.module('infiltrator.services', ["ngResource"]).
   // Device service.
   factory("Device", function($resource, topic)
   {
-    var Device = $resource("/device/:id");
+    var Device = $resource("/device/:id", {}, {
+      get: {
+        cache: true,
+        method: "GET"
+      }
+    });
 
     //
     // Subscribe to device registration messages.
     topic.subscribe("evt/register", function(device)
     {
-      var devIdx = Device.get({ id: device.id });
-      console.log(devIdx);
+      Device.get({ id: device.id }, function(resDevice)
+      {
+        console.log(resDevice);
+      });
     });
 
     return Device;
