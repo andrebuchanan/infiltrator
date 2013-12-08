@@ -5,13 +5,13 @@
 angular.module('infiltrator.services', ["ngResource"]).
   //
   // Device service.
-  factory("Device", function($resource, topic)
+  factory("Device", function($resource, topic, $rootScope)
   {
     var Device = $resource("/device/:id", {}, {
-      get: {
-        cache: true,
-        method: "GET"
-      }
+      // get: {
+      //   cache: true,
+      //   method: "GET"
+      // }
     });
 
     //
@@ -20,7 +20,7 @@ angular.module('infiltrator.services', ["ngResource"]).
     {
       Device.get({ id: device.id }, function(resDevice)
       {
-        console.log(resDevice);
+        // console.log(resDevice.$save());
       });
     });
 
