@@ -5,7 +5,7 @@
 angular.module('infiltrator.controllers', []).
   //
   // App controller. Handle basic functions.
-  controller("appCtrl", function(events)
+  controller("appCtrl", function()
   {
     this.grock = function(input)
     {
@@ -62,7 +62,7 @@ angular.module('infiltrator.controllers', []).
         status: "Messy"
       }
     ];
-    this.devices = Device.query();
+    this.devices = Device.items;
 
     // User wishes to view a particular device.
     if ($routeParams.deviceId)

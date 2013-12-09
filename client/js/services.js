@@ -2,26 +2,21 @@
 {
 "use strict";
 
-angular.module('infiltrator.services', ["ngResource"]).
+angular.module('infiltrator.services', ["ngResource", "eugeneware.shoe"]).
   //
   // Device service.
-  factory("Device", function($resource, topic, $rootScope)
+  factory("Device", function(shoe)
   {
-    var Device = $resource("/device/:id", {}, {
-      // get: {
-      //   cache: true,
-      //   method: "GET"
-      // }
-    });
+    var Device = {
+      items: []
+    };
 
-    //
-    // Subscribe to device registration messages.
-    topic.subscribe("evt/register", function(device)
+    var stream = shoe("/data");
+    stream.on("data", function(msg)
     {
-      Device.get({ id: device.id }, function(resDevice)
-      {
-        // console.log(resDevice.$save());
-      });
+      console.log(msg);
+      Device.items.push(msg);
+      stream.write("Poop");
     });
 
     return Device;
