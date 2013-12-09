@@ -1,10 +1,22 @@
 describe("Controller testing", function()
 {
-  var scope = {};
-  var appCtrl = new appCtrl(scope);
-
-  it("should have an appCtrl", function()
+  var appCtrl;
+  beforeEach(module("infiltrator.controllers"));
+  beforeEach(inject(function($controller)
   {
-    expect(appCtrl).not.toBe(undefined);
+    appCtrl = $controller("appCtrl");
+  }));
+
+  describe("AppCtrl", function()
+  {
+    it("should be defined", function()
+    {
+      expect(appCtrl).not.toBe(undefined);
+    });
+
+    it("should have a grock function", function()
+    {
+      expect(appCtrl.grock).toBeDefined();
+    });
   });
 });

@@ -15,7 +15,9 @@
     "express": "3.4.x",
     "redis": "~0.9.1",
     "shoe": "0.0.15",
-    "moment-timezone": "0.0.3"
+    "moment-timezone": "0.0.3",
+    "JSONStream": "~0.7.1",
+    "event-stream": "~3.0.18"
   },
   "repository": "",
   "private": true,
@@ -31,6 +33,12 @@
     "karma-coffee-preprocessor": "~0.1.0",
     "karma-phantomjs-launcher": "~0.1.0",
     "karma": "~0.10.2",
-    "karma-mocha": "~0.1.0"
+    "karma-mocha": "~0.1.0",
+    "jasmine-node": "~1.11.0",
+    "grunt-jasmine-node": "~0.1.0",
+    "grunt": "~0.4.2",
+    "grunt-contrib-jasmine": "~0.5.2",
+    "grunt-contrib-nodeunit": "~0.2.2",
+    "nodeunit": "~0.8.2"
   }
 }
