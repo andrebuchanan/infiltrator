@@ -15,7 +15,7 @@ angular.module('infiltrator.services', ["ngResource", "eugeneware.shoe"]).
     stream.on("data", function(msg)
     {
       console.log(msg);
-      Device.items.push(msg);
+      Device.items.push(JSON.parse(msg));
       stream.write("Poop");
     });
 
