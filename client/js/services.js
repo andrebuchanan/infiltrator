@@ -14,10 +14,15 @@ angular.module('infiltrator.services', ["ngResource", "eugeneware.shoe"]).
     var stream = shoe("/data");
     stream.on("data", function(msg)
     {
-      console.log(msg);
-      Device.items.push(JSON.parse(msg));
-      stream.write("Poop");
+      var devices = JSON.parse(msg);
+      console.log(devices);
+      devices.forEach(function(device)
+      {
+        Device.items.push(device);
+      });
+      console.log(Device.items);
     });
+    stream.write(JSON.stringify({ req: "device" }));
 
     return Device;
   }).
