@@ -7,18 +7,22 @@ angular.module('infiltrator.services', ["ngResource", "eugeneware.shoe"]).
   // Device service.
   factory("Device", function(shoe)
   {
+    var stream = shoe("/data");
     var Device = {
-      items: []
+      items: {},
+      get: function(id)
+      {
+        return this.items[id];
+      }
     };
 
-    var stream = shoe("/data");
     stream.on("data", function(msg)
     {
       var devices = JSON.parse(msg);
       console.log(devices);
       devices.forEach(function(device)
       {
-        Device.items.push(device);
+        Device.items[device.id] = device;
       });
       console.log(Device.items);
     });

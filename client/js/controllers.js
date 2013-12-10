@@ -16,52 +16,6 @@ angular.module('infiltrator.controllers', []).
   // Devices controller.
   .controller("devicesCtrl", function($scope, Device, $routeParams, $location, $modal, topic)
   {
-    this.devices = [
-      {
-        name: "iPhone#927",
-        type: "iphone",
-        lastComm: "2 seconds",
-        status: "Achieved self-awareness",
-        lines: [
-          { out: "Lorem" },
-          { out: "ipsum" },
-          { out: "dolor" },
-          { out: "sit" },
-          { out: "amet" },
-          { out: "consectetur" },
-          { out: "adipisicing" },
-          { out: "elit" },
-          { out: "Soluta" },
-          { out: "fugiat" },
-          { out: "distinctio" },
-          { out: "non" },
-          { out: "quasi" },
-          { out: "voluptatum" },
-          { out: "voluptatibus" },
-          { out: "ipsum" },
-          { out: "optio" },
-          { out: "corporis" },
-          { out: "porro" },
-          { out: "quisquam" },
-          { out: "tempore" },
-          { out: "officia" },
-          { out: "rem" },
-          { out: "error" },
-          { out: "vel" },
-          { out: "dicta" },
-          { out: "sed" },
-          { out: "facilis" },
-          { out: "odit" },
-          { out: "nesciunt" }
-        ]
-      },
-      {
-        name: "iPood",
-        type: "android aphone",
-        lastComm: "many times",
-        status: "Messy"
-      }
-    ];
     this.devices = Device.items;
 
     // User wishes to view a particular device.
@@ -69,11 +23,7 @@ angular.module('infiltrator.controllers', []).
     {
       // console.log($routeParams.eventId);
       this.loadingMessage = "Loading device";
-      this.device = Device.get({ id: $routeParams.deviceId });
-      // this.arbEvent = Event.get({ _id: { $oid: $routeParams.eventId }}, function()
-      // {
-      //   $this.loadingMessage = false;
-      // });
+      this.device = Device.get($routeParams.deviceId);
     }
 
     // View a particular device. Load the device and when that's done, reroute to device view.
