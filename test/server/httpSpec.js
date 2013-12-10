@@ -2,8 +2,13 @@ var request = require("request");
 
 describe("API test", function()
 {
-  it("should return something or other.", function()
+  it("should not error", function(asyncDone)
   {
-    [1].indexOf(2).should.equal(-1);
+    var devices;
+    // Call device API.
+    request("http://localhost:8889/device/", function(error, res, body)
+    {
+      asyncDone(error);
+    });
   });
 });
