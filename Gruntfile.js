@@ -38,7 +38,12 @@ module.exports = function(grunt) {
       }
     },
     concurrent: {
-      test: ["mochacli"]
+      test: {
+        tasks: ["nodemon:test", "mochacli"],
+        options: {
+          logConcurrentOutput: true
+        }
+      }
     }
   });
 
