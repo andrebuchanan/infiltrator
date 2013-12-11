@@ -1,0 +1,1 @@
+The Infiltrator is a service which provides a reporting function for CAS mobile clients. Clients connect to the infiltration server via websockets and periodically send messages. These messages are relayed through the server to a web browser client. The web browser client enables users to visualise client state data.
