@@ -4,9 +4,6 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON("package.json"),
-    env: {
-      src: "env.json"
-    },
     mochacli: {
       options: {
         require: ["should"]
@@ -39,15 +36,20 @@ module.exports = function(grunt) {
           watchedFolders: ["./lib"]
         }
       }
+    },
+    concurrent: {
+      test: ["mochacli"]
     }
   });
 
   grunt.loadNpmTasks("grunt-mocha-cli");
-  grunt.loadNpmTasks('grunt-karma');
-  grunt.loadNpmTasks('grunt-nodemon');
+  grunt.loadNpmTasks("grunt-karma");
+  grunt.loadNpmTasks("grunt-nodemon");
+  grunt.loadNpmTasks("grunt-concurrent");
   grunt.loadNpmTasks("grunt-contrib-watch");
 
   grunt.registerTask("default", ["watch"]);
-  grunt.registerTask("test", ["nodemon:test", "mochacli"]);
+  grunt.registerTask("test", ["concurrent"]);
+
   grunt.registerTask("serve", ["nodemon:dev"]);
 };
