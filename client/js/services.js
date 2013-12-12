@@ -18,7 +18,14 @@ angular.module('infiltrator.services', ["ngResource", "eugeneware.shoe"]).
 
     stream.on("data", function(msg)
     {
-      var devices = JSON.parse(msg);
+      var data = JSON.parse(msg);
+      if (data.req == "register")
+      {
+        Device.items[data.id] = data;
+        return;
+      }
+
+      var devices = data;
       console.log(devices);
       devices.forEach(function(device)
       {
@@ -27,6 +34,7 @@ angular.module('infiltrator.services', ["ngResource", "eugeneware.shoe"]).
       console.log(Device.items);
     });
     stream.write(JSON.stringify({ req: "device" }));
+    stream.write(JSON.stringify({ sub: "register" }));
 
     return Device;
   }).
