@@ -5,9 +5,8 @@
 angular.module('infiltrator.services', ["ngResource", "eugeneware.shoe"]).
   //
   // Device service.
-  factory("Device", function(shoe)
+  factory("Device", function(reconnect)
   {
-    var stream = shoe("/data");
     var Device = {
       items: {},
       get: function(id)
@@ -16,25 +15,28 @@ angular.module('infiltrator.services', ["ngResource", "eugeneware.shoe"]).
       }
     };
 
-    stream.on("data", function(msg)
+    reconnect(function(stream)
     {
-      var data = JSON.parse(msg);
-      if (data.req == "register")
+      stream.on("data", function(msg)
       {
-        Device.items[data.id] = data;
-        return;
-      }
+        var data = JSON.parse(msg);
+        if (data.req == "register")
+        {
+          Device.items[data.id] = data;
+          return;
+        }
 
-      var devices = data;
-      console.log(devices);
-      devices.forEach(function(device)
-      {
-        Device.items[device.id] = device;
+        var devices = data;
+        console.log(devices);
+        devices.forEach(function(device)
+        {
+          Device.items[device.id] = device;
+        });
+        console.log(Device.items);
       });
-      console.log(Device.items);
-    });
-    stream.write(JSON.stringify({ req: "device" }));
-    stream.write(JSON.stringify({ sub: "register" }));
+      stream.write(JSON.stringify({ req: "device" }));
+      stream.write(JSON.stringify({ sub: "register" }));
+    }).connect("/data");
 
     return Device;
   }).
