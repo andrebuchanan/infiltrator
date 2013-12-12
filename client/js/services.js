@@ -4,8 +4,94 @@
 
 angular.module('infiltrator.services', ["ngResource", "eugeneware.shoe"]).
   //
+  // Socket data service.
+  factory("Data", function(reconnect)
+  {
+    var Data = {
+      // Convert to string.
+      tos: function(json)
+      {
+        return JSON.stringify(json);
+      },
+      // Subscribe to incoming messages of certain types.
+      subs: {},
+      sub: function(channel, cb)
+      {
+        var handle = [channel, cb];
+        if (!this.subs[channel]) this.subs[channel] = [];
+        this.subs[channel].push(cb);
+        this.send({ sub: channel });
+        return handle;
+      },
+      // Unsubscribe from a channel.
+      unsub: function(handle)
+      {
+        var channel = handle[0];
+        angular.forEach(this.subs[channel], function(item, index)
+        {
+          // If stored function is same as handle callback, remove element from array.
+          if (item === handle[1])
+          {
+            this.subs[channel].splice(index, 1);
+          }
+        });
+      },
+      _send: function(json)
+      {
+        this.stream.write(this.tos(json));
+      },
+      send: function(json)
+      {
+        if (!this.stream)
+        {
+          setTimeout(function()
+          {
+            Data._send(json);
+          }, 200);
+          return;
+        }
+        this._send(json);
+      },
+      sendReq: function(name, data)
+      {
+        this.send({ req: name });
+      },
+      stream: null
+    };
+
+    // Use the reconnect function to establish and maintain connection to server.
+    reconnect(function(stream)
+    {
+      Data.stream = stream;
+      stream.on("data", function(msg)
+      {
+        var data = {};
+        // Grab the contents of the message. Technically the server shouldn't be
+        // sending enborkend messages, but just in case...
+        try
+        {
+          data = JSON.parse(msg);
+        }
+        catch(e) { console.log(e); }
+
+        // If there was valid data in the tubes, try to use it.
+        var channel = data.req + "";
+        delete data.req;
+        // For each subscription to the channel, run the callback with
+        // the supplied data.
+        console.log(channel);
+        (Data.subs[channel] ? Data.subs[channel] : []).forEach(function(callback)
+        {
+          callback(data);
+        });
+      });
+    }).connect("/data");
+
+    return Data;
+  }).
+  //
   // Device service.
-  factory("Device", function(reconnect)
+  factory("Device", function(Data)
   {
     var Device = {
       items: {},
@@ -15,28 +101,20 @@ angular.module('infiltrator.services', ["ngResource", "eugeneware.shoe"]).
       }
     };
 
-    reconnect(function(stream)
+    Data.sub("register", function(device)
     {
-      stream.on("data", function(msg)
-      {
-        var data = JSON.parse(msg);
-        if (data.req == "register")
-        {
-          Device.items[data.id] = data;
-          return;
-        }
+      Device.items[device.register.id] = device.register;
+    });
 
-        var devices = data;
-        console.log(devices);
-        devices.forEach(function(device)
-        {
-          Device.items[device.id] = device;
-        });
-        console.log(Device.items);
+    Data.sub("devices", function(data)
+    {
+      data.devices.forEach(function(device)
+      {
+        Device.items[device.id] = device;
       });
-      stream.write(JSON.stringify({ req: "device" }));
-      stream.write(JSON.stringify({ sub: "register" }));
-    }).connect("/data");
+    });
+
+    Data.sendReq("devices");
 
     return Device;
   }).
