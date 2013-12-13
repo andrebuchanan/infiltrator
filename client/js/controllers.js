@@ -21,20 +21,25 @@ angular.module('infiltrator.controllers', []).
     // User wishes to view a particular device.
     if ($routeParams.deviceId)
     {
+      var that = this;
       // console.log($routeParams.eventId);
       this.loadingMessage = "Loading device";
-      this.device = Device.get($routeParams.deviceId);
+      Device.get($routeParams.deviceId).then(function(data)
+      {
+        console.log(data);
+        that.device = data.data[0];
+      });
     }
 
     // View a particular device. Load the device and when that's done, reroute to device view.
     // Do not reroute if there is a problem loading device.
     // Display error in this case.
     // Display loading dialog during load.
-    this.viewDevice = function(number)
+    this.viewDevice = function(deviceId)
     {
-      // If number isn't valid, don't do anything.
-      if (number === null || number === undefined) return;
-      $location.path("/device/" + number);
+      // If deviceId isn't valid, don't do anything.
+      if (deviceId === null || deviceId === undefined) return;
+      $location.path("/device/" + deviceId);
     };
 
     //

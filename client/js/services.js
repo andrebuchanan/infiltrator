@@ -7,6 +7,7 @@ angular.module('infiltrator.services', ["ngResource", "eugeneware.shoe"]).
   // Socket data service.
   factory("Data", function(reconnect)
   {
+    var reqId = 0;
     var Data = {
       // Convert to string.
       tos: function(json)
@@ -20,8 +21,14 @@ angular.module('infiltrator.services', ["ngResource", "eugeneware.shoe"]).
         var handle = [channel, cb];
         if (!this.subs[channel]) this.subs[channel] = [];
         this.subs[channel].push(cb);
-        this.send({ sub: channel });
+        console.log("subbing ", channel, this.subs[channel]);
+        this.sendSub(channel);
         return handle;
+      },
+      // Send subscription request.
+      sendSub: function(channel)
+      {
+        this.send({ sub: channel, req: "sub" });
       },
       // Unsubscribe from a channel.
       unsub: function(handle)
@@ -35,6 +42,8 @@ angular.module('infiltrator.services', ["ngResource", "eugeneware.shoe"]).
             this.subs[channel].splice(index, 1);
           }
         });
+        // If there are no more callbacks for channel, send unsub request.
+        if (this.subs[channel].length === 0) this.send({ sub: channel, req: "sub" });
       },
       _send: function(json)
       {
@@ -46,15 +55,11 @@ angular.module('infiltrator.services', ["ngResource", "eugeneware.shoe"]).
         {
           setTimeout(function()
           {
-            Data._send(json);
+            Data.send(json);
           }, 200);
           return;
         }
         this._send(json);
-      },
-      sendReq: function(name, data)
-      {
-        this.send({ req: name });
       },
       stream: null
     };
@@ -85,36 +90,54 @@ angular.module('infiltrator.services', ["ngResource", "eugeneware.shoe"]).
           callback(data);
         });
       });
+
+      // On reconnection, resub if there are callbacks.
+      for (var ch in Data.subs)
+      {
+        if (Data.subs[ch].length > 0) Data.sendSub(ch);
+      }
     }).connect("/data");
 
     return Data;
   }).
   //
   // Device service.
-  factory("Device", function(Data)
+  factory("Device", function(Data, $http)
   {
     var Device = {
       items: {},
       get: function(id)
       {
-        return this.items[id];
+        return $http({ method: "GET", url: "/device/" + (id ? id : "") }).
+        success(function(data)
+        {
+          console.log(data);
+          data.forEach(function(device)
+          {
+            Device.items[device.id] = device;
+          });
+        });
       }
     };
 
+    Device.get();
+
+    // Execute this callback when registration messages are received.
     Data.sub("register", function(device)
     {
       Device.items[device.register.id] = device.register;
     });
 
-    Data.sub("devices", function(data)
+    // Execute this callback when console messages are received.
+    Data.sub("console", function(msg)
     {
-      data.devices.forEach(function(device)
+      if (Device.items[msg.console.id])
       {
-        Device.items[device.id] = device;
-      });
+        var device = Device.items[msg.console.id];
+        if (!device.console) device.console = [];
+        device.console.push(msg.console);
+      }
     });
-
-    Data.sendReq("devices");
 
     return Device;
   }).
