@@ -26,8 +26,9 @@ angular.module('infiltrator.controllers', []).
       this.loadingMessage = "Loading device";
       Device.get($routeParams.deviceId).then(function(data)
       {
-        console.log(data);
+        // XXX hack
         that.device = data.data[0];
+        Device.console($routeParams.deviceId);
       });
     }
 

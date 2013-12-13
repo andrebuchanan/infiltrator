@@ -102,20 +102,33 @@ angular.module('infiltrator.services', ["ngResource", "eugeneware.shoe"]).
   }).
   //
   // Device service.
-  factory("Device", function(Data, $http)
+  factory("Device", function(Data, $http, $rootScope)
   {
     var Device = {
       items: {},
+      // Get device info
       get: function(id)
       {
         return $http({ method: "GET", url: "/device/" + (id ? id : "") }).
         success(function(data)
         {
-          console.log(data);
           data.forEach(function(device)
           {
             Device.items[device.id] = device;
           });
+        });
+      },
+      // Get console messages for device.
+      console: function(id)
+      {
+        return $http({ method: "GET", url: "/device/console/" + id }).
+        success(function(data)
+        {
+          console.log(data);
+          // $rootScope.$apply(function()
+          // {
+          Device.items[id].console = data;
+          // });
         });
       }
     };
