@@ -112,8 +112,9 @@ angular.module('infiltrator.services', ["ngResource", "eugeneware.shoe"]).
         return $http({ method: "GET", url: "/device/" + (id ? id : "") }).
         success(function(data)
         {
-          data.forEach(function(device)
+          data.device.forEach(function(device)
           {
+            device.console = [];
             Device.items[device.id] = device;
           });
         });
@@ -121,14 +122,14 @@ angular.module('infiltrator.services', ["ngResource", "eugeneware.shoe"]).
       // Get console messages for device.
       console: function(id)
       {
-        return $http({ method: "GET", url: "/device/console/" + id }).
+        return $http({ method: "GET", url: "/consoles/" + id }).
         success(function(data)
         {
           console.log(data);
-          // $rootScope.$apply(function()
-          // {
-          Device.items[id].console = data;
-          // });
+          data.consoles.forEach(function(msg)
+          {
+            Device.items[id].console.push(msg);
+          });
         });
       }
     };
@@ -144,11 +145,11 @@ angular.module('infiltrator.services', ["ngResource", "eugeneware.shoe"]).
     // Execute this callback when console messages are received.
     Data.sub("console", function(msg)
     {
-      if (Device.items[msg.console.id])
+      if (Device.items[msg.console[0].id])
       {
-        var device = Device.items[msg.console.id];
+        var device = Device.items[msg.console[0].id];
         if (!device.console) device.console = [];
-        device.console.push(msg.console);
+        device.console.push(msg.console[0]);
       }
     });
 

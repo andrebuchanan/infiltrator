@@ -27,7 +27,7 @@ angular.module('infiltrator.controllers', []).
       Device.get($routeParams.deviceId).then(function(data)
       {
         // XXX hack
-        that.device = data.data[0];
+        that.device = data.data.device[0];
         Device.console($routeParams.deviceId);
       });
     }
