@@ -139,7 +139,7 @@ angular.module('infiltrator.services', ["ngResource", "eugeneware.shoe"]).
     // Execute this callback when registration messages are received.
     Data.sub("register", function(device)
     {
-      Device.items[device.register.id] = device.register;
+      Device.items[device.register[0].id] = device.register[0];
     });
 
     // Execute this callback when console messages are received.
