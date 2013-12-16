@@ -114,8 +114,9 @@ angular.module('infiltrator.services', ["ngResource", "eugeneware.shoe"]).
         {
           data.device.forEach(function(device)
           {
-            device.console = [];
+            // if (Device.items[device.id] && Device.items[device.id].console === undefined)
             Device.items[device.id] = device;
+            Device.items[device.id].console = [];
           });
         });
       },

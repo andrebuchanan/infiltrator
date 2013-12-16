@@ -16,6 +16,7 @@ angular.module('infiltrator.controllers', []).
   // Devices controller.
   .controller("devicesCtrl", function($scope, Device, $routeParams, $location, $modal, topic)
   {
+    var that = this;
     this.devices = Device.items;
 
     // User wishes to view a particular device.
